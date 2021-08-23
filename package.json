@@ -1,0 +1,41 @@
+{
+  "name": "ChelovekGleb-ContestHelpers",
+  "version": "2.2.2",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build-dev": "vue-cli-service build --mode development",
+    "build-prod": "vue-cli-service build --mode production --modern"
+  },
+  "dependencies": {
+    "tmi.js": "^1.8.3",
+    "vue": "^2.6.12",
+    "vuex": "^3.1.1"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.12.0",
+    "@vue/cli-service": "^4.5.10",
+    "favicons-webpack-plugin": "^1.0.2",
+    "stylus": "^0.54.8",
+    "stylus-loader": "^3.0.2",
+    "vue-template-compiler": "^2.6.12"
+  },
+  "babel": {
+    "presets": [
+      "@vue/app"
+    ]
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "last 5 versions",
+    ">1%"
+  ],
+  "main": "vue.config.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

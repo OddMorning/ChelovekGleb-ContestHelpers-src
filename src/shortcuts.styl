@@ -1,0 +1,72 @@
+/* ~~~~~~~~~~~~ *\
+ Shortcuts v2.1.0
+     13.10.19
+\* ~~~~~~~~~~~~ */
+
+/******************
+ * http://stylus-lang.com/docs/selectors.html#partial-reference
+ * ^[0]     :: The most top selector (#0)
+ * ^[-1..1] :: An entire selector excluding #0
+ *
+ * .parent
+ *   .child
+ *     .kid
+ *       +parent-has(':hover', '.highlight')
+ *         color: #333
+ *   ==>
+ * .parent:hover .child .kid
+ * .parent.highlight .child .kid
+ *   color: #123
+ */
+parent-has(selectors...)
+  for selector in selectors
+    ^[0]{selector} ^[-1..1]
+      {block}
+
+/******************
+ * size: 1em
+ *   ==>
+ * width: 1em
+ * height: 1em
+ ******
+ * size: 1em 2em
+ *   ==>
+ * width: 1em
+ * height: 2em
+ */
+size(w h=false)
+  width: w
+  height: h ? h : w
+
+/******************
+ * set: top left bottom right 0
+ *   ==>
+ * top: 0
+ * left: 0
+ * bottom: 0
+ * right: 0
+ */
+set(args...)
+  for i in 0..length(args) - 2
+    prop=args[i]
+    {prop}: args[length(args) - 1]
+
+/******************
+ * https://cdn-images-1.medium.com/max/3000/1*7YeOvzoYgUEDJdfQy2ERXg.png
+ *
+ * +media-phone-only()
+ *   width: 100%
+ *   ==>
+ * @media (max-width: 599px)
+ *   width: 100%
+ */
+media-phone-only()
+  @media (max-width: 599px) { {block} }
+media-tablet-portrait-up()
+  @media (min-width: 600px) { {block} }
+media-tablet-landscape-up()
+  @media (min-width: 900px) { {block} }
+media-desktop-up()
+  @media (min-width: 1200px) { {block} }
+media-big-desktop-up()
+  @media (min-width: 1800px) { {block} }
