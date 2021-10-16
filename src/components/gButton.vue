@@ -55,4 +55,8 @@
       font-size: 13px
     &:hover
       background-color: var(--accent)
+    &[disabled]
+      background-color: var(--ColorBgSecondary)
+      pointer-events: none
+      color: var(--ColorFg)
 </style>

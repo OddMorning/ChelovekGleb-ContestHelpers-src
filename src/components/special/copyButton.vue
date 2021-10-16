@@ -12,6 +12,10 @@
         type: Function,
         required: true,
       },
+      caption: {
+        type: String,
+        default: null,
+      },
     },
     components: {
       gButton: () => import(/* webpackMode: "eager" */ '@/components/gButton'),
@@ -28,7 +32,7 @@
 
         switch (state) {
           case 'copy':
-            caption = 'Копировать'
+            caption = this.caption || 'Копировать'
             break
           case 'copied':
             caption = 'Скопировано!'

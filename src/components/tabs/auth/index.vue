@@ -27,6 +27,15 @@
         caption='Авторизоваться'
         @click='doAuth'
       />
+      <CopyButton
+        caption='Скопировать токен'
+        :disabled='!$store.state.isAuthenticated'
+        :target='generateTokenInputNode'
+      />
+      <input
+        :class='$style.tokenInput'
+        ref='tokenInput'
+      >
     </div>
   </div>
 </template>
@@ -37,6 +46,7 @@
   export default {
     components: {
       gButton: () => import(/* webpackMode: "eager" */ '@/components/gButton'),
+      CopyButton: () => import(/* webpackMode: "eager" */ '@/components/special/copyButton'),
     },
     data: () => ({
       authState: 'noAuth',
@@ -79,6 +89,14 @@
           ],
         })
       },
+      generateTokenInputNode () {
+        const node = this.$refs.tokenInput
+        node.value = ls.token
+        setTimeout(() => {
+          node.value = ''
+        }, 1000)
+        return node
+      },
       async revokeToken () {
         this.twitch.revokeToken()
 
@@ -114,7 +132,13 @@
   .buttonsContainer
     justify-content: center
     align-items: start
+    grid-gap: 1rem
     display: grid
+
+  .tokenInput
+    pointer-events: none
+    opacity: 0
+    height: 0
 
   .stateIcon
     &.noAuth::after
