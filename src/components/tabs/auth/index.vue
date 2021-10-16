@@ -32,11 +32,11 @@
         :disabled='!$store.state.isAuthenticated'
         :target='generateTokenInputNode'
       />
-      <input
-        :class='$style.tokenInput'
-        ref='tokenInput'
-      >
     </div>
+    <input
+      :class='$style.tokenInput'
+      ref='tokenInput'
+    >
   </div>
 </template>
 
