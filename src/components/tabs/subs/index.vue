@@ -25,7 +25,6 @@
         transparent
       />
     </gContainer>
-
     <div
       :class='$style.controlContainer'
     >
@@ -56,22 +55,6 @@
           v-model='conf.tier3'
           @click='processResult'
         />
-
-        <!-- <gButton
-          :caption='conf.tier1 ? "[×] Tier 1" : "[ ] Tier 1"'
-          @click='toggleConf("tier1")'
-          nowrap
-        />
-        <gButton
-          :caption='conf.tier2 ? "[×] Tier 2" : "[ ] Tier 2"'
-          @click='toggleConf("tier2")'
-          nowrap
-        />
-        <gButton
-          :caption='conf.tier3 ? "[×] Tier 3" : "[ ] Tier 3"'
-          @click='toggleConf("tier3")'
-          nowrap
-        /> -->
       </div>
     </div>
   </div>

@@ -20,17 +20,20 @@
       <gButton
         v-if='$store.state.isAuthenticated'
         caption='Отозвать токен'
+        title='Разлогиниться и сделать токен недействительным'
         @click='revokeToken'
       />
       <gButton
         v-else
         caption='Авторизоваться'
+        title='Открыть страницу авторизации Twitch'
         @click='doAuth'
       />
       <CopyButton
-        caption='Скопировать токен'
+        caption='Копировать токен'
         :disabled='!$store.state.isAuthenticated'
         :target='generateTokenInputNode'
+        title='Для отладочных целей'
       />
     </div>
     <input
@@ -110,7 +113,7 @@
 </script>
 
 <style module lang='stylus'>
-  .container
+  .container.container
     grid-template-rows: 1fr 1fr
     justify-content: center
     max-width: 90rem

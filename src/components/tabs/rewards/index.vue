@@ -13,7 +13,6 @@
         disabled
       />
     </gContainer>
-
     <div
       :class='$style.controlContainer'
     >
@@ -34,13 +33,12 @@
           title='Исключить повторяющиеся имена'
           @click='processResult'
         />
-
-        <!-- <gButton
-          :caption='filters.onlyUniqueNames ? `[×] Без повторений` : `[ ] Без повторений`'
-          @click='toggleFilter("onlyUniqueNames")'
-          title='Исключить повторяющиеся имена'
-          nowrap
-        /> -->
+        <gToggler
+          caption='Запросить выполненные'
+          v-model='filters.requireFulfilled'
+          title='Запросить награды, которые отмечены как выполненные'
+          @click='getAll'
+        />
         <template v-if='hasRewards'>
           <gToggler
             v-for='(reward, idx) in rewards'
@@ -50,15 +48,6 @@
             :title='reward.prompt'
             @click='processResult'
           />
-
-          <!-- <gButton
-            v-for='(reward, idx) in rewards'
-            :key='idx'
-            :caption='reward.enabled ? `[×] ${reward.title}` : `[ ] ${reward.title}`'
-            @click='toggleReward(reward)'
-            :title='reward.prompt'
-            nowrap
-          /> -->
         </template>
         <gButton
           :class='$style.addRewardBtn'
@@ -90,6 +79,7 @@
       },
       filters: {
         onlyUniqueNames: false,
+        requireFulfilled: false,
       },
       rewards: [],
       rewardRedemptions: [],
@@ -187,7 +177,7 @@
                 first: 50,
                 broadcaster_id: this.twitch.user.id,
                 reward_id: reward.id,
-                status: 'UNFULFILLED',
+                status: this.filter.requireFulfilled ? 'FULFILLED' : 'UNFULFILLED',
                 sort: 'NEWEST',
               },
             })
@@ -197,14 +187,23 @@
               return
             }
 
-            const redemptions = result.data.map(item => ({
+            let redemptions = result.data.map(item => ({
               id: item.id,
               rewardId: item.reward.id,
               userName: item.user_name,
               userInput: item.user_input,
               status: item.status,
+              timestamp: item.redeemed_at,
               date: new Date(item.redeemed_at),
             }))
+
+            // Не протестировано, возможно не работает
+            if (this.filter.requireFulfilled) {
+              const oneDay = 86400000
+              const expiryDate = new Date().valueOf() - oneDay
+
+              redemptions = redemptions.filter(item => item.timestamp < expiryDate)
+            }
 
             this.rewardRedemptions.push(...redemptions)
           }
