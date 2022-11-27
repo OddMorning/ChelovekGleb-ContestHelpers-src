@@ -25,6 +25,10 @@ async function initTwitchController (redirectAuthData = {}) {
 }
 
 export default async () => {
+  if (!clientId) {
+    throw new Error('Client ID is not found! Make sure .env file exists and contains a "VUE_APP_TWITCH_CLIENT_ID=<client id>" line')
+  }
+
   const hashRaw = location.hash
   const hash = hashRaw ? processHash(hashRaw) : {}
   const twitchController = await initTwitchController(hash)
