@@ -1,6 +1,6 @@
 const packageJson = JSON.parse(require('fs').readFileSync('./package.json'))
 const isDevelopment = (process.env.NODE_ENV !== 'production')
-const FaviconsPlugin = require('favicons-webpack-plugin')
+const icongen = require('icon-gen')
 
 // Define global variables
 process.env.VUE_APP_IS_DEVELOPMENT = isDevelopment ? '1' : ''
@@ -33,31 +33,23 @@ module.exports = {
 
   // https://cli.vuejs.org/guide/webpack.html#chaining-advanced
   // https://github.com/neutrinojs/webpack-chain
-  chainWebpack: (config) => {
-    // ~~~~~~ Favicons generator
-    // https://github.com/jantimon/favicons-webpack-plugin
-    // configureWebpack.plugins.push(new FaviconsWebpackPlugin({ ... }))
-    config.plugin('favicons').use(FaviconsPlugin, [{
-      logo: './src/assets/favicon.png',
-      prefix: './assets/favicons/',
-      lang: 'ru-RU',
-      cache: true,
-      inject: true,
-      favicons: {
-        background: '#000',
-        theme_color: 'green',
-        icons: {
-          favicons: true,
-          yandex: true,
-
-          appleStartup: false,
-          appleIcon: false,
-          firefox: false,
-          windows: false,
-          android: false,
-          coast: false,
-        },
-      },
-    }])
+  chainWebpack: async (config) => {
+    // ~~~~~~ Custom favicons generator
+    // https://github.com/akabekobeko/npm-icon-gen
+    if (!isDevelopment) {
+      const srcIcon = `${__dirname}/src/assets/favicon.png`
+      const desrRoot = config.output.store.get('path')
+      const destDir = `${desrRoot}/assets/favicons`
+      const options = {
+        favicon: {
+          name: 'favicon-',
+          pngSizes: [16, 32, 48, 128],
+          icoSizes: [16, 24, 32, 48, 64]
+        }
+      }
+  
+      await fs.mkdir(destDir, { recursive: true })
+      await icongen(srcIcon, destDir, options)
+    }
   },
 }
