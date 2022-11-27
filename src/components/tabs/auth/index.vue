@@ -25,7 +25,7 @@
       />
       <gButton
         v-else
-        caption='Авторизоваться'
+        caption='Авторизация'
         title='Открыть страницу авторизации Twitch'
         @click='doAuth'
       />

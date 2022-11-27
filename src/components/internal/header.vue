@@ -5,7 +5,7 @@
       :key='idx'
       :class='[$style.tab, {
         [$style.active]: tab === tabData.tab,
-        [$style.locked]: !$store.state.isAuthenticated && tabData.tab !== "auth",
+        [$style.locked]: !isAuthorized && tabData.tab !== "auth",
       }]'
       v-text='tabData.name'
       @click='selectTab(tabData.tab)'
@@ -27,6 +27,9 @@
     computed: {
       tab () {
         return this.$store.state.currentTab
+      },
+      isAuthorized () {
+        return this.$store.state.isAuthenticated
       },
     },
     methods: {
