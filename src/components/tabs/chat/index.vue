@@ -123,7 +123,7 @@
           v-model='input.successNotificationTemplate'
           rows='1'
           :placeholder='defaultValues.successNotificationTemplate'
-          :title='"Текст, который будет отображён, когда сообщение найдено.\n\nСимвол «@» будет заменён на ник.\nСимвол «*» будет заменён на текст сообщения.\nСимвол «&» будет заменён на введённый текст."'
+          :title='"Текст, который будет отображён, когда сообщение найдено.\n\nСимвол «@» будет заменён на ник.\nСимвол «*» будет заменён на текст сообщения.\nСимвол «&» будет заменён на шаблон, введённый выше."'
           @input='saveValueToLs("chat_found.successNotificationTemplate", input.successNotificationTemplate)'
         />
         <div :class='$style.buttonsWrapper'>
@@ -158,6 +158,7 @@
           <gButton
             caption='Проверить'
             @click='createFakeSuccessfulMessage'
+            title='Сымитировать ситуацию, будто в чате было дан правильный ответ (проиграть звук, показать уведомление и т.д.)'
             compact
           />
         </div>
@@ -677,7 +678,9 @@
         padding-right: var(--pad)
         padding-left: var(--pad)
       .time
-        vertical-align: super
+        vertical-align: middle
+        display: inline-block
+        margin-bottom: .3rem
         font-size: .5rem
         opacity: .5
         &::after
