@@ -36,7 +36,7 @@
         <gToggler
           caption='Запросить выполненные'
           v-model='filters.requireFulfilled'
-          title='Запросить награды, которые отмечены как выполненные'
+          title='Запросить награды, которые отмечены как выполненные (за последние сутки)'
           @click='getAll'
         />
         <template v-if='hasRewards'>
@@ -162,6 +162,7 @@
           this.$set(this, 'rewards', types)
           if (resultOriginal) this.input.result = resultOriginal
         } catch (e) {
+          console.error(e)
           this.input.result = `Что-то пошло не так при обработке запроса:\n\n${e.message}`
         }
       },
@@ -177,7 +178,7 @@
                 first: 50,
                 broadcaster_id: this.twitch.user.id,
                 reward_id: reward.id,
-                status: this.filter.requireFulfilled ? 'FULFILLED' : 'UNFULFILLED',
+                status: this.filters.requireFulfilled ? 'FULFILLED' : 'UNFULFILLED',
                 sort: 'NEWEST',
               },
             })
@@ -197,8 +198,8 @@
               date: new Date(item.redeemed_at),
             }))
 
-            // Не протестировано, возможно не работает
-            if (this.filter.requireFulfilled) {
+            // Only recent requests
+            if (this.filters.requireFulfilled) {
               const oneDay = 86400000
               const expiryDate = new Date().valueOf() - oneDay
 
@@ -210,18 +211,10 @@
 
           this.processResult()
         } catch (e) {
+          console.error(e)
           this.input.result = `Что-то пошло не так при обработке запроса:\n\n${e.message}`
         }
       },
-
-      // toggleFilter (filterName) {
-      //   this.filters[filterName] = !this.filters[filterName]
-      //   this.processResult()
-      // },
-      // toggleReward (rewardType) {
-      //   rewardType.enabled = !rewardType.enabled
-      //   this.processResult()
-      // },
       processResult () {
         const enabledRewardIds = this.rewards
           .filter(reward => reward.enabled)
