@@ -1,3 +1,4 @@
+const fs = require('fs').promises
 const packageJson = JSON.parse(require('fs').readFileSync('./package.json'))
 const isDevelopment = (process.env.NODE_ENV !== 'production')
 const icongen = require('icon-gen')
